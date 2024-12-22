@@ -48,9 +48,9 @@
                                 <li>
                                     <a href="{{ route('page.contact', 2) }}" title="">Liên hệ</a>
                                 </li>
-                                @if(auth()->guard('web')->check())
+                                @if(auth()->guard('guest')->check())
                                 <li class="user-account">
-                                    <a href="#" title="">Xin chào, {{ auth()->guard('web')->user()->fullname }}</a>
+                                    <a href="#" title="">Xin chào, {{ auth()->guard('guest')->user()->fullname }}</a>
                                     <ul class="sub-menu">
                                         <li>
                                             <a href="#" id="logout-link" title="">Đăng xuất</a>
@@ -137,32 +137,66 @@
                 </div>
             </div>
 
-            @if(auth()->guard('web')->check())
+            @if(auth()->guard('guest')->check())
             <script>
             $(document).ready(function() {
                 $('#logout-link').on('click', function(e) {
                     e.preventDefault();
-                    
-                    $.ajax({
-                        url: '{{ route("guest-logout") }}',
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                alert(response.message);
-                                window.location.href = response.redirect_url;
+                    if(confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+                        $('.loading-overlay').css('display', 'flex');
+                        
+                        $.ajax({
+                            url: '{{ route("guest-logout") }}',
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                $('.loading-overlay').hide();
+                                if (response.success) {
+                                    alert('Đăng xuất thành công!');
+                                    window.location.href = response.redirect_url;
+                                }
+                            },
+                            error: function(xhr) {
+                                $('.loading-overlay').hide();
+                                console.error('Logout error:', xhr);
+                                alert('Có lỗi xảy ra khi đăng xuất');
                             }
-                        },
-                        error: function(xhr) {
-                            console.error('Logout error:', xhr);
-                            alert('Có lỗi xảy ra khi đăng xuất');
-                        }
-                    });
+                        });
+                    }
                 });
             });
             </script>
+            <div class="loading-overlay">
+                <div class="loading-spinner"></div>
+            </div>
+            <style>
+            .loading-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 9999;
+                justify-content: center;
+                align-items: center;
+            }
+            .loading-spinner {
+                width: 50px;
+                height: 50px;
+                border: 5px solid #f3f3f3;
+                border-top: 5px solid #d9263c;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            </style>
             @endif
         </div>
     </div>

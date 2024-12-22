@@ -31,7 +31,7 @@ class AdminOrderController extends Controller
                 ['status' , 'being_transported'],
                 ['fullname' , 'like', "%{$keyword}%"]
                 ])
-            ->join('guests', 'guests.id', '=', 'orders.id')
+            ->join('guests', 'guests.id', '=', 'orders.guest_id')
             ->paginate(5);
         }else if($status == 'success'){
             $list_act = [
@@ -43,7 +43,7 @@ class AdminOrderController extends Controller
                 ['status' , 'success'],
                 ['fullname' , 'like', "%{$keyword}%"]
                 ])
-            ->join('guests', 'guests.id', '=', 'orders.id')
+            ->join('guests', 'guests.id', '=', 'orders.guest_id')
             ->paginate(5);
         }else if($status == 'cancelled'){
             $list_act = [
@@ -55,7 +55,7 @@ class AdminOrderController extends Controller
                 ['status' , 'cancelled'],
                 ['fullname' , 'like', "%{$keyword}%"]
                 ])
-            ->join('guests', 'guests.id', '=', 'orders.id')
+            ->join('guests', 'guests.id', '=', 'orders.guest_id')
             ->paginate(5);
         }else{
             $list_act = [
@@ -67,7 +67,7 @@ class AdminOrderController extends Controller
                 ['status' , 'processing'],
                 ['fullname' , 'like', "%{$keyword}%"],
             ])
-            ->join('guests', 'guests.id', '=', 'orders.id')
+            ->join('guests', 'guests.id', '=', 'orders.guest_id')
             ->paginate(5);
         }
         $count_order_processing = Order::where('status', 'processing')->count();

@@ -16,7 +16,7 @@
 <body>
     <div id="warpper" class="nav-fixed">
         <nav class="topnav shadow navbar-light bg-white d-flex">
-            <div class="navbar-brand"><a href="{{ url('dashboard') }}">UNITOP ADMIN</a></div>
+            <div class="navbar-brand"><a href="{{ url('dashboard') }}">{{ config('app.name') }}</a></div>
             <div class="nav-right ">
                 <div class="btn-group mr-auto">
                     <button type="button" class="btn dropdown" data-toggle="dropdown" aria-haspopup="true"
@@ -35,7 +35,7 @@
                         {{ Auth::user()->name }}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{{ route('user.edit', Auth::id()) }}">Tài khoản</a>
+                        <a class="dropdown-item" href="{{ route('admin.user.edit', Auth::id()) }}">Thông tin cá nhân</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -167,7 +167,7 @@
     </script>
     <script>
         var editor_config = {
-            path_absolute : "http://localhost/unismart/",
+            path_absolute : "http://webbandienthoai.test:8080/",
             selector: 'textarea',
             relative_urls: false,
             height: 350,

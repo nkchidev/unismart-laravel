@@ -28,11 +28,11 @@
                             <div class="form-row clearfix">
                                 <div class="form-col fl-left">
                                     <label for="fullname">Họ tên</label>
-                                    <input type="text" name="fullname" id="fullname" value="{{ auth()->guard('web')->user()->fullname }}" readonly>
+                                    <input type="text" name="fullname" id="fullname" value="{{ auth()->guard('guest')->user()->fullname }}" readonly>
                                 </div>
                                 <div class="form-col fl-right">
                                     <label for="email">Email</label>
-                                    <input type="email" name="email" id="email" value="{{ auth()->guard('web')->user()->email }}" readonly>
+                                    <input type="email" name="email" id="email" value="{{ auth()->guard('guest')->user()->email }}" readonly>
                                 </div>
                             </div>
                             <div class="form-row clearfix">
@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="form-col fl-right">
                                     <label for="phone">Số điện thoại</label>
-                                    <input type="tel" name="phone_number" id="phone" value="{{ auth()->guard('web')->user()->phone_number }}" readonly>
+                                    <input type="tel" name="phone_number" id="phone" value="{{ auth()->guard('guest')->user()->phone_number }}" readonly>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -216,7 +216,7 @@
         $('#order-now').on('click', function(e) {
             e.preventDefault();
             
-            @if(!auth()->guard('web')->check())
+            @if(!auth()->guard('guest')->check())
                 window.location.href = '{{ route("guest-login") }}';
                 return;
             @endif

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class AdminUserController extends Controller
 {
     function __construct(){
+        $this->middleware('auth');
         $this->middleware(function($request, $next){
             session(['module_active' => 'user']);
 
@@ -120,33 +121,42 @@ class AdminUserController extends Controller
         return redirect('admin/user/list')->with('status', 'Bạn cần phải chọn phần tử cần thực thi');
     }
 
-    function edit($id){
-        $user = User::find($id);
+    function edit($id)
+    {
+        $user = Auth::user();
+        
+        if (!$user) {
+            return redirect()->route('admin.user.list')->with('error', 'Không tìm thấy người dùng');
+        }
+        
         return view('admin.user.edit', compact('user'));
     }
 
-    function update(Request $request,$id){
-        $request->validate(
-            [
-                'name' => 'required|string|max:255',
-                'password' => 'required|string|min:8|confirmed',
-            ],
-            [
-                'required' => ':attribute không được để trống',
-                'min' => ':attribute có đồ dài ít nhất :min ký tự',
-                'max' => ':attribute có độ dài tối đa :max ký tự',
-                'confirmed' => 'Xác nhận mật khẩu không thành công',
-            ],
-            [
-                'name' => 'Tên người dùng',
-                'password' => 'Mật khẩu'
-            ]
-        );
+    function update(Request $request, $id)
+    {
+        $user = User::find($id);
+        
+        if (!$user) {
+            return redirect()->route('admin.user.list')->with('error', 'Không tìm thấy người dùng');
+        }
 
-        User::find($id)->update([
-            'name' => $request->input('name'),
-            'password' => Hash::make($request->input('password')),
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'password' => 'nullable|min:8|confirmed',
+        ], [
+            'name.required' => 'Tên không được để trống',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp',
         ]);
-        return redirect('admin/user/list')->with('status', 'Cập nhật thông tin người dùng thành công');
+
+        $user->name = $request->name;
+        
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.user.list')->with('success', 'Cập nhật thông tin thành công');
     }
 }

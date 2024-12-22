@@ -34,7 +34,7 @@
                         <label for="password-confirm">Xác nhận mật khẩu</label>
                         <input class="form-control" type="password" name="password_confirmation" id="password-confirm">
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="">Nhóm quyền</label>
                         <select class="form-control" id="">
                             <option>Chọn quyền</option>
@@ -43,7 +43,7 @@
                             <option>Danh mục 3</option>
                             <option>Danh mục 4</option>
                         </select>
-                    </div>
+                    </div> --}}
                     <input type="submit" value="Thêm mới" name="btn_add" class="btn btn-primary">
                 </form>
             </div>

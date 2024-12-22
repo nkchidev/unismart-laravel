@@ -98,10 +98,9 @@
             $.ajax({
                 url: '{{ route("verify-login-otp") }}',
                 method: 'POST',
-                data: JSON.stringify({ otp: $('#otp').val() }),
-                contentType: 'application/json',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                data: {
+                    otp: $('#otp').val(),
+                    _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     $('.loading').hide();

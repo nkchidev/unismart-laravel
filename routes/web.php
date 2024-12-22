@@ -16,6 +16,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,7 +32,16 @@ use App\Http\Controllers\MailController;
 
 # Guest
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/home', [HomeController::class, 'index']);
+
+// Login
+Route::get('/guest-login', [RegisterController::class, 'guestLogin'])->name('guest-login');
+Route::post('/guest-login', [RegisterController::class, 'login'])->name('guest-login-post');
+Route::post('/verify-login-otp', [RegisterController::class, 'verifyLoginOtp'])->name('verify-login-otp');
+Route::post('/guest-logout', [RegisterController::class, 'logout'])->name('guest-logout');
+Route::get('/guest-register', [RegisterController::class, 'guestRegister'])->name('guest-register');
+Route::post('/guest-register', [RegisterController::class, 'register'])->name('guest-register');
+Route::post('/verify-otp', [RegisterController::class, 'verifyOtp'])->name('verify-otp');
+Route::post('/resend-otp', [RegisterController::class, 'resendOtp'])->name('resend-otp');
 
 // Page
 Route::get('/gioi-thieu/{id}', [PageController::class , 'show'])->name('page.about');
@@ -50,26 +62,66 @@ Route::get('/cart/add/{id}',[CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::get('/cart/delete/{rowId}',[CartController::class, 'delete'])->name('cart.delete');
 Route::get('/cart/destroy',[CartController::class,'destroy'])->name('cart.destroy');
-Route::get('/gio-hang/thanh-toan',[CheckoutController::class, 'show'])->name('checkout.show');
-Route::post('/checkout/store',[CheckoutController::class, 'store'])->name('checkout.store');
-Route::get('/gio-hang/thanh-toan/thanh-cong', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::middleware(['auth:guest'])->group(function () {
+    Route::get('/gio-hang/thanh-toan',[CheckoutController::class, 'show'])->name('checkout.show');
+    Route::post('/checkout/store',[CheckoutController::class, 'store'])->name('checkout.store');
+    Route::post('/checkout/verify',[CheckoutController::class, 'verify'])->name('checkout.verify');
+    Route::post('/checkout/verify-otp',[CheckoutController::class, 'verifyOtp'])->name('checkout.verify-otp');
+    Route::get('/gio-hang/thanh-toan/thanh-cong', [CheckoutController::class, 'success'])->name('checkout.success');
+});
 // Mail
 Route::get('mail/sendmail/{order_id}',[MailController::class, 'sendmail'])->name('sendmail');
 
-Auth::routes();
+Route::get('/test-mail', function() {
+    try {
+        Mail::raw('Test email content', function($message) {
+            $message->to('nguyenkimchi10112003@gmail.com')
+                   ->subject('Test Email');
+        });
+        return 'Email sent successfully';
+    } catch (\Exception $e) {
+        \Log::error('Mail Test Error: ' . $e->getMessage());
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
+// Routes cho admin
+Route::middleware(['web'])->group(function () {
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+Route::middleware(['web', 'auth'])->prefix('admin')->group(function () {
+    Route::get('/', [DashboardController::class, 'show']);
+    Route::get('/dashboard', [DashboardController::class, 'show']);
+    // ... các routes admin khác
+});
+
+// Routes cho guest/client
+Route::middleware(['guest'])->group(function () {
+    Route::get('/guest-login', [RegisterController::class, 'guestLogin'])->name('guest-login');
+    Route::post('/guest-login', [RegisterController::class, 'login'])->name('guest-login-post');
+    // ... các routes guest khác
+});
+
+Route::middleware(['guest', 'auth:guest'])->group(function () {
+    Route::get('/gio-hang/thanh-toan',[CheckoutController::class, 'show'])->name('checkout.show');
+    // ... các routes checkout khác
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'show']);
     Route::get('/admin', [DashboardController::class, 'show']);
 
     # User
-    Route::get('admin/user/list',[AdminUserController::class, 'show']);
+    Route::get('admin/user/list',[AdminUserController::class, 'show'])->name('admin.user.list');
     Route::get('admin/user/add', [AdminUserController::class, 'add']);
     Route::post('admin/user/store', [AdminUserController::class, 'store']);
     Route::get('admin/user/delete/{id}', [AdminUserController::class, 'delete'])->name('delete_user');
     Route::post('admin/user/action', [AdminUserController::class, 'action']);
-    Route::get('admin/user/edit/{id}', [AdminUserController::class, 'edit'])->name('user.edit');
-    Route::post('admin/user/update/{id}', [AdminUserController::class, 'update'])->name('user.update');
+    Route::get('admin/user/edit/{id}', [AdminUserController::class, 'edit'])->name('admin.user.edit');
+    Route::post('admin/user/update/{id}', [AdminUserController::class, 'update'])->name('admin.user.update');
 
     # Page
     Route::group(['prefix' => 'laravel-filemanager'], function () {

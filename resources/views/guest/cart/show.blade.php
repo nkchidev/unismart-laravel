@@ -4,7 +4,7 @@
     <script>
         $(document).ready(function() {
             $('#checkout-cart').on('click', function(e) {
-                @if(!auth()->guard('web')->check())
+                @if(!auth()->guard('guest')->check())
                     e.preventDefault();
                     window.location.href = '{{ route("guest-login") }}';
                 @endif
@@ -81,7 +81,7 @@
                                         <div class="clearfix">
                                             <div class="fl-right">
                                                 {{-- <a href="" title="" id="update-cart">Cập nhật giỏ hàng</a> --}}
-                                                <a href="{{ auth()->guard('web')->check() ? route('checkout.show') : route('guest-login') }}" 
+                                                <a href="{{ auth()->guard('guest')->check() ? route('checkout.show') : route('guest-login') }}" 
                                                    title="" id="checkout-cart">Thanh toán</a>
                                             </div>
                                         </div>
@@ -110,7 +110,7 @@
             </div>
         @endif
         <div class="place-order-wp clearfix">
-            @if(!auth()->guard('web')->check())
+            @if(!auth()->guard('guest')->check())
                 <div class="alert alert-warning">
                     Vui lòng <a href="{{ route('guest-login') }}">đăng nhập</a> để tiến hành thanh toán
                 </div>

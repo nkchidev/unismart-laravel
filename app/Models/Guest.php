@@ -2,15 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Guest extends Model
+class Guest extends Authenticatable
 {
-    use HasFactory;
-    protected $fillable = ['fullname','email','ship_address','phone_number'];
+    use HasApiTokens, Notifiable;
 
-    function order(){
-        return $this->hasMany('App\Models\Order');
-    }
+    protected $guard = 'guest';
+
+    protected $fillable = [
+        'fullname',
+        'email',
+        'phone_number',
+        'ship_address',
+        'password'
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 }

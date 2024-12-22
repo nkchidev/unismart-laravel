@@ -49,8 +49,8 @@
                                 <th scope="col">Tổng tiền</th>
                                 <th scope="col">Trạng thái</th>
                                 <th scope="col">Thời gian</th>
-                                <th scope="col">Chi tiết</th>
-                                {{-- <th scope="col">Tác vụ</th> --}}
+                                {{-- <th scope="col">Chi tiết</th> --}}
+                                <th scope="col">Tác vụ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,13 +82,13 @@
                                             @endif
                                         </td>
                                         <td>{{ $order->created_at }}</td>
-                                        <td>
-                                            <a href="{{ route('order.detail', $order->id) }}" class="text-primary">Chi tiết</a>
-                                        </td>
                                         {{-- <td>
-                                            <a href="#" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            <a href="{{ route('order.detail', $order->id) }}" class="text-primary">Chi tiết</a>
                                         </td> --}}
+                                        <td>
+                                            <a href="{{ route('order.detail', $order->id) }}" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Chi tiết">Chi tiết</a>
+                                            {{-- <a href="#" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a> --}}
+                                        </td>
                                     </tr>
                                 @endforeach
                             @else
