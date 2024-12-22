@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('ship_address');
             $table->string('phone_number');
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

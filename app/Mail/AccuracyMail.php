@@ -33,7 +33,7 @@ class AccuracyMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('nguyenkimchi10112003@gmail.com','Unismart'),
+            from: new Address(env('MAIL_FROM_ADDRESS'), env('APP_NAME')),
             subject: '[Unismart] Thư xác nhận mua hàng',
         );
     }

@@ -184,3 +184,89 @@
 #cart-wp #dropdown .action-cart a.checkout{ background: #d9263c; color: #fff;}
 #cart-wp #dropdown .action-cart a.view-cart:hover{ background: #ccc;}
 #cart-wp #dropdown .action-cart a.checkout:hover{ background: #af1427;}
+
+
+#main-menu > li > span {
+    display: block;
+    color: #fff;
+    padding: 8px 20px;
+    line-height: normal;
+}
+
+/* CSS cho user account menu */
+#main-menu .user-account {
+    position: relative;
+    display: inline-block;
+}
+
+#main-menu .user-account > a {
+    display: block;
+    color: #fff;
+    padding: 8px 20px;
+    line-height: 24px;
+    text-transform: uppercase;
+}
+
+#main-menu .user-account:hover > a {
+    background: #da263c;
+}
+
+#main-menu .user-account .sub-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 200px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    display: none !important;
+    z-index: 9999;
+    border-radius: 4px;
+    padding: 5px 0;
+}
+
+#main-menu .user-account:hover .sub-menu {
+    display: block !important;
+}
+
+#main-menu .user-account .sub-menu li {
+    display: block;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+}
+
+#main-menu .user-account .sub-menu li:last-child {
+    border-bottom: none;
+}
+
+#head-top #main-menu .user-account .sub-menu a {
+    display: block;
+    padding: 4px 15px;
+    color: #333 !important  ;
+    text-transform: none;
+    line-height: 20px;
+    font-size: 13px;
+    font-family: 'Roboto Regular';
+    background: transparent;
+}
+
+#main-menu .user-account .sub-menu a:hover {
+    color: #d62d20;
+    background: #f9f9f9;
+}
+
+/* Animation cho submenu */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#main-menu .user-account:hover .sub-menu {
+    animation: slideDown 0.3s ease-out;
+}

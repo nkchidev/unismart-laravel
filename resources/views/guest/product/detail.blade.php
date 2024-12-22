@@ -37,7 +37,7 @@
                             </div>
                         </div>
                         <div class="thumb-respon-wp fl-left">
-                            <img src="public/images/img-pro-01.png" alt="">
+                            <img src="images/img-pro-01.png" alt="">
                         </div>
                         <form action="{{ route('cart.add', $product->id) }}" method="GET">
                             <div class="info fl-right">

@@ -151,3 +151,98 @@ ul#sidebar-menu * {
     right: -5px;
     color: #8c8c8c;
 }
+
+
+/* CSS cho modal OTP */
+.modal-otp-checkout {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-otp-checkout .modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-otp-checkout h3 {
+    margin: 0 0 20px;
+    text-align: center;
+    color: #333;
+}
+
+.modal-otp-checkout p {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #666;
+}
+
+.modal-otp-checkout .form-group {
+    margin-bottom: 20px;
+}
+
+.modal-otp-checkout input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.modal-otp-checkout .submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: #d9263c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.modal-otp-checkout .submit-btn:hover {
+    background: #c11f33;
+}
+
+.resend-otp {
+    text-align: center;
+    margin-top: 15px;
+    color: #666;
+}
+
+#resendOtp {
+    background: none;
+    border: none;
+    color: #d9263c;
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+}
+
+#resendOtp:hover {
+    text-decoration: underline;
+}
+
+#countdown {
+    font-size: 14px;
+}
+
+#timer {
+    font-weight: bold;
+    color: #d9263c;
+}

@@ -1,5 +1,5 @@
 <div id="footer-wp">
-    <div id="foot-body">
+    {{-- <div id="foot-body">
         <div class="wp-inner clearfix">
             <div class="block" id="info-company">
                 <h3 class="title">ISMART</h3>
@@ -7,7 +7,7 @@
                     đãi cực lớn cho khách hàng có thẻ thành viên.</p>
                 <div id="payment">
                     <div class="thumb">
-                        <img src="public/images/img-foot.png" alt="">
+                        <img src="images/img-foot.png" alt="">
                     </div>
                 </div>
             </div>
@@ -53,10 +53,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div id="foot-bot">
         <div class="wp-inner">
-            <p id="copyright">© Bản quyền thuộc về unitop.vn | Php Master</p>
+            <p id="copyright">© Copyright 2024</p>
         </div>
     </div>
 </div>

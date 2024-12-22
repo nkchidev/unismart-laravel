@@ -1,6 +1,17 @@
 @extends('layouts.guest')
 
 @section('content')
+    <script>
+        $(document).ready(function() {
+            $('#checkout-cart').on('click', function(e) {
+                @if(!auth()->guard('web')->check())
+                    e.preventDefault();
+                    window.location.href = '{{ route("guest-login") }}';
+                @endif
+            });
+        });
+    </script>
+
     <div id="main-content-wp" class="cart-page">
         <div class="section" id="breadcrumb-wp">
             <div class="wp-inner">
@@ -70,7 +81,8 @@
                                         <div class="clearfix">
                                             <div class="fl-right">
                                                 {{-- <a href="" title="" id="update-cart">Cập nhật giỏ hàng</a> --}}
-                                                <a href="{{ route('checkout.show') }}" title="" id="checkout-cart">Thanh toán</a>
+                                                <a href="{{ auth()->guard('web')->check() ? route('checkout.show') : route('guest-login') }}" 
+                                                   title="" id="checkout-cart">Thanh toán</a>
                                             </div>
                                         </div>
                                     </td>
@@ -83,7 +95,7 @@
                     <div class="section-detail">
                         {{-- <p class="title">Click vào <span>“Cập nhật giỏ hàng”</span> để cập nhật số lượng. Nhập vào số lượng
                             <span>0</span> để xóa sản phẩm khỏi giỏ hàng. Nhấn vào thanh toán để hoàn tất mua hàng.</p> --}}
-                        <a href="{{ url('home') }}" title="" id="buy-more">Mua tiếp</a><br />
+                        <a href="{{ route('home') }}" title="" id="buy-more">Mua tiếp</a><br />
                         <a href="{{ route('cart.destroy') }}" title="" id="delete-cart">Xóa giỏ hàng</a>
                     </div>
                 </div>
@@ -92,10 +104,17 @@
             <div id="wrapper" class="wp-inner clearfix">
                 <div class="section" id="action-cart-wp">
                     <div class="section-detail">
-                        <a href="{{ url('home') }}" title="" id="buy-more">Mua tiếp</a><br />
+                        <a href="{{ route('home') }}" title="" id="buy-more">Mua tiếp</a><br />
                     </div>
                 </div>
             </div>
         @endif
+        <div class="place-order-wp clearfix">
+            @if(!auth()->guard('web')->check())
+                <div class="alert alert-warning">
+                    Vui lòng <a href="{{ route('guest-login') }}">đăng nhập</a> để tiến hành thanh toán
+                </div>
+            @endif
+        </div>
     </div>
 @endsection

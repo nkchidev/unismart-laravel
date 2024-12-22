@@ -34,11 +34,11 @@
                         <div id="main-menu-wp" class="fl-right">
                             <ul id="main-menu" class="clearfix">
                                 <li>
-                                    <a href="{{ url('home') }}" title="">Trang chủ</a>
+                                    <a href="{{ route('home') }}" title="">Trang chủ</a>
                                 </li>
                                 {{-- <li>
-                                        <a href="{{ url('san-pham') }}" title="">Sản phẩm</a>
-                                    </li> --}}
+                                    <a href="{{ url('san-pham') }}" title="">Sản phẩm</a>
+                                </li> --}}
                                 <li>
                                     <a href="{{ url('tin-tuc') }}" title="">Tin tức</a>
                                 </li>
@@ -48,13 +48,30 @@
                                 <li>
                                     <a href="{{ route('page.contact', 2) }}" title="">Liên hệ</a>
                                 </li>
+                                @if(auth()->guard('web')->check())
+                                <li class="user-account">
+                                    <a href="#" title="">Xin chào, {{ auth()->guard('web')->user()->fullname }}</a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="#" id="logout-link" title="">Đăng xuất</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                @else
+                                <li>
+                                    <a href="{{ route('guest-login') }}" title="">Đăng nhập</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('guest-register') }}" title="">Đăng ký</a>
+                                </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div id="head-body" class="clearfix">
                     <div class="wp-inner">
-                        <a href="{{ url('home') }}" title="" id="logo" class="fl-left"><img
+                        <a href="{{ route('home') }}" title="" id="logo" class="fl-left"><img
                                 src="{{ asset('images/logo.png') }}" /></a>
                         <div id="search-wp" class="fl-left">
                             <form method="POST" action="{{ url('san-pham/tim-kiem') }}">
@@ -119,3 +136,35 @@
                     </div>
                 </div>
             </div>
+
+            @if(auth()->guard('web')->check())
+            <script>
+            $(document).ready(function() {
+                $('#logout-link').on('click', function(e) {
+                    e.preventDefault();
+                    
+                    $.ajax({
+                        url: '{{ route("guest-logout") }}',
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                alert(response.message);
+                                window.location.href = response.redirect_url;
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Logout error:', xhr);
+                            alert('Có lỗi xảy ra khi đăng xuất');
+                        }
+                    });
+                });
+            });
+            </script>
+            @endif
+        </div>
+    </div>
+</body>
+</html>

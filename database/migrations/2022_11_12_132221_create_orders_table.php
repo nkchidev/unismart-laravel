@@ -16,11 +16,15 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('guest_id');
-            $table->foreign('guest_id')->references('id')->on('guests')->onDelete('cascade');
+            $table->string('ship_address');
             $table->integer('num_order');
-            $table->integer('total');
-            $table->enum('status', ['processing','cancelled','being_transported','success']);
+            $table->decimal('total', 10, 2);
+            $table->enum('status', ['processing', 'pending', 'completed', 'cancelled']);
+            $table->string('payment_method');
+            $table->text('note')->nullable();
             $table->timestamps();
+            
+            $table->foreign('guest_id')->references('id')->on('guests')->onDelete('cascade');
         });
     }
 
